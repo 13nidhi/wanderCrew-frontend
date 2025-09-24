@@ -1,0 +1,16 @@
+node_modules
+dist
+build
+coverage
+.next
+.nuxt
+.cache
+.parcel-cache
+.vscode
+.idea
+*.log
+.DS_Store
+Thumbs.db
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
