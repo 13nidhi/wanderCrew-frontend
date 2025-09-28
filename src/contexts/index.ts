@@ -1,5 +1,3 @@
-// React contexts
-// Export all context providers here for clean imports
+// Export all context providers
+export { default as AuthContext, AuthProvider, useAuth } from './AuthContext';
 
-// Placeholder for contexts
-// Will be populated as contexts are created

@@ -1,5 +1,3 @@
-// Custom hooks
-// Export all custom hooks here for clean imports
+// Export all custom hooks
+export { useAuth } from './useAuth';
 
-// Placeholder for hooks
-// Will be populated as hooks are created
