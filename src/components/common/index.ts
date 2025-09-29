@@ -1,5 +1,6 @@
 // Common reusable components
 // Export all common components here for clean imports
 
-// Placeholder for common components
-// Will be populated as components are created
+export { default as LoadingSpinner } from './LoadingSpinner';
+export { default as TripCard } from './TripCard';
+

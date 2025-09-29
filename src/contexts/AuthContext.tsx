@@ -21,6 +21,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Listen for authentication state changes
   useEffect(() => {
+    // Check if we're in demo mode
+    const isDemoMode = import.meta.env['VITE_FIREBASE_API_KEY'] === 'demo-api-key' || !import.meta.env['VITE_FIREBASE_API_KEY'];
+    
+    if (isDemoMode) {
+      console.warn('Running in demo mode - Firebase authentication disabled');
+      setIsLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setFirebaseUser(firebaseUser);
       
@@ -45,6 +54,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Sign in with email and password
   const signIn = async (email: string, password: string): Promise<void> => {
+    const isDemoMode = import.meta.env['VITE_FIREBASE_API_KEY'] === 'demo-api-key' || !import.meta.env['VITE_FIREBASE_API_KEY'];
+    
+    if (isDemoMode) {
+      console.warn('Demo mode: Simulating sign in');
+      // Simulate successful sign in with demo user
+      const demoUser = {
+        id: 'demo-user',
+        email: email,
+        name: 'Demo User',
+        profilePicture: '',
+        travelPreferences: {
+          destinations: ['Paris', 'Tokyo'],
+          budgetRange: { min: 500, max: 2000, currency: 'USD' },
+          groupSizePreference: 'medium' as const,
+          travelStyle: 'relaxed' as const,
+          interests: ['culture', 'food']
+        },
+        createdAt: new Date() as any,
+        updatedAt: new Date() as any,
+        isVerified: true,
+        lastLoginAt: new Date() as any,
+      };
+      setUser(demoUser);
+      return;
+    }
+
     try {
       await signInWithEmail(email, password);
     } catch (error: any) {

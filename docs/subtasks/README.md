@@ -16,7 +16,8 @@ This directory contains detailed tracking for individual subtasks within each ph
   - [phase-1-task-1-4-auth-context.md](./phase-1-task-1-4-auth-context.md)
 
 ### Pending
-- [ ] Task 1.5: Authentication Pages Implementation  
+- [ ] Task 1.5: Authentication Pages Implementation
+  - [phase-1-task-1-5-auth-pages.md](./phase-1-task-1-5-auth-pages.md)
 - [ ] Task 1.6: User Profile Service Implementation
 
 ## Subtask Status Legend

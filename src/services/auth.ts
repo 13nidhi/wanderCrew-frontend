@@ -1,16 +1,16 @@
 import {
-    createUserWithEmailAndPassword,
-    User as FirebaseUser,
-    GoogleAuthProvider,
-    sendPasswordResetEmail,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    signOut,
-    updateProfile,
+  createUserWithEmailAndPassword,
+  type User as FirebaseUser,
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../config/firebase';
-import { FirebaseUserProfile } from '../types/firebase';
+import type { FirebaseUserProfile } from '../types/firebase';
 
 // Google Auth Provider
 const googleProvider = new GoogleAuthProvider();
@@ -36,7 +36,7 @@ export const signUpWithEmail = async (
 
     // Update Firebase Auth profile
     await updateProfile(user, {
-      displayName: userData.name,
+      displayName: userData.name || null,
     });
 
     // Create user profile in Firestore
