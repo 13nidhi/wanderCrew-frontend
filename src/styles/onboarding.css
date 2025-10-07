@@ -1,0 +1,537 @@
+/* Onboarding Flow Styles */
+
+.onboarding-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboarding-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.onboarding-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color, #2563eb);
+  margin-bottom: 0.5rem;
+}
+
+.onboarding-header p {
+  font-size: 1.125rem;
+  color: var(--text-secondary, #6b7280);
+  margin: 0;
+}
+
+/* Progress Indicator */
+.onboarding-progress {
+  margin-bottom: 2rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--border-color, #e5e7eb);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color, #2563eb);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #6b7280);
+  font-weight: 500;
+}
+
+/* Onboarding Content */
+.onboarding-content {
+  flex: 1;
+  background: var(--surface-color, #ffffff);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.step-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.step-header h2 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+  margin-bottom: 0.5rem;
+}
+
+.step-header p {
+  font-size: 1rem;
+  color: var(--text-secondary, #6b7280);
+  margin: 0;
+}
+
+/* Form Styles */
+.personal-info-form,
+.travel-preferences-form,
+.profile-setup-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color, #d1d5db);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--surface-color, #ffffff);
+  color: var(--text-primary, #111827);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+  background-color: var(--surface-disabled, #f9fafb);
+  color: var(--text-disabled, #9ca3af);
+  cursor: not-allowed;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Multi-select Styles */
+.multi-select-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.multi-select-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color, #d1d5db);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--surface-color, #ffffff);
+}
+
+.multi-select-item:hover {
+  border-color: var(--primary-color, #2563eb);
+  background-color: var(--surface-hover, #f8fafc);
+}
+
+.multi-select-item input[type="checkbox"] {
+  margin-right: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--primary-color, #2563eb);
+}
+
+.multi-select-item input[type="checkbox"]:checked + span {
+  font-weight: 600;
+  color: var(--primary-color, #2563eb);
+}
+
+.multi-select-item:has(input[type="checkbox"]:checked) {
+  border-color: var(--primary-color, #2563eb);
+  background-color: var(--primary-light, #eff6ff);
+}
+
+/* Budget Range Styles */
+.budget-range {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.budget-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.budget-input-group label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary, #6b7280);
+}
+
+.budget-separator {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-secondary, #6b7280);
+  margin-top: 1.5rem;
+}
+
+/* Form Sections */
+.form-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: var(--surface-secondary, #f8fafc);
+  border-radius: 8px;
+  border: 1px solid var(--border-light, #e2e8f0);
+}
+
+.form-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-primary, #111827);
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--primary-color, #2563eb);
+}
+
+/* Profile Picture Upload */
+.profile-picture-upload {
+  margin-top: 1rem;
+}
+
+.upload-placeholder {
+  text-align: center;
+  padding: 2rem;
+  border: 2px dashed var(--border-color, #d1d5db);
+  border-radius: 8px;
+  background-color: var(--surface-secondary, #f8fafc);
+  color: var(--text-secondary, #6b7280);
+}
+
+.upload-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.upload-placeholder p {
+  margin: 0 0 0.25rem 0;
+  font-weight: 500;
+}
+
+.upload-placeholder small {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-light, #e2e8f0);
+}
+
+.actions-center {
+  display: flex;
+  align-items: center;
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--primary-color, #2563eb);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-dark, #1d4ed8);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+  background-color: var(--surface-color, #ffffff);
+  color: var(--text-primary, #111827);
+  border: 2px solid var(--border-color, #d1d5db);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--surface-hover, #f8fafc);
+  border-color: var(--text-secondary, #6b7280);
+}
+
+.btn-link {
+  background-color: transparent;
+  color: var(--primary-color, #2563eb);
+  border: none;
+  text-decoration: underline;
+}
+
+.btn-link:hover:not(:disabled) {
+  color: var(--primary-dark, #1d4ed8);
+  text-decoration: none;
+}
+
+/* Error Styles */
+.form-error,
+.onboarding-error-message {
+  background-color: var(--error-light, #fef2f2);
+  border: 1px solid var(--error-color, #fca5a5);
+  color: var(--error-dark, #dc2626);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.form-error p,
+.onboarding-error-message p {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.onboarding-error-message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-size: 1rem;
+  color: var(--text-secondary, #6b7280);
+}
+
+/* Error Page */
+.onboarding-error {
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: var(--surface-color, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.onboarding-error h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--error-dark, #dc2626);
+  margin-bottom: 1rem;
+}
+
+.onboarding-error p {
+  color: var(--text-secondary, #6b7280);
+  margin-bottom: 2rem;
+}
+
+/* Navigation */
+.onboarding-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border-light, #e2e8f0);
+}
+
+.navigation-center {
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .onboarding-container {
+    padding: 1rem;
+  }
+  
+  .onboarding-header h1 {
+    font-size: 2rem;
+  }
+  
+  .onboarding-content {
+    padding: 1.5rem;
+  }
+  
+  .step-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .multi-select-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .budget-range {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .budget-separator {
+    margin-top: 0;
+    transform: rotate(90deg);
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+  
+  .onboarding-navigation {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .navigation-center {
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .onboarding-container {
+    padding: 0.5rem;
+  }
+  
+  .onboarding-content {
+    padding: 1rem;
+  }
+  
+  .form-section {
+    padding: 1rem;
+  }
+  
+  .multi-select-item {
+    padding: 0.5rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .onboarding-container {
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --surface-color: #1f2937;
+    --surface-secondary: #374151;
+    --surface-hover: #4b5563;
+    --surface-disabled: #374151;
+    --border-color: #4b5563;
+    --border-light: #374151;
+    --text-disabled: #6b7280;
+  }
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

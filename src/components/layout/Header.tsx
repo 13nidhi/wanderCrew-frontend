@@ -1,3 +1,4 @@
+import { useAuth } from '@contexts/AuthContext';
 import type { BaseComponentProps } from '@types/components';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -15,6 +16,7 @@ const Header: React.FC<HeaderProps> = ({
   className = '',
 }) => {
   const [isPromoVisible, setIsPromoVisible] = useState(true);
+  const { user, signOut } = useAuth();
 
   return (
     <header className={`app-header ${className}`}>
@@ -85,13 +87,29 @@ const Header: React.FC<HeaderProps> = ({
           )}
         </button>
 
-        <Link to="/login" className="btn btn-secondary">
-          Log in
-        </Link>
-
-        <Link to="/signup" className="btn btn-primary">
-          Sign up
-        </Link>
+        {user ? (
+          <>
+            <Link to="/profile" className="btn btn-secondary">
+              Profile
+            </Link>
+            <button
+              onClick={signOut}
+              className="btn btn-outline"
+              aria-label="Sign out"
+            >
+              Sign out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="btn btn-secondary">
+              Log in
+            </Link>
+            <Link to="/signup" className="btn btn-primary">
+              Sign up
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );

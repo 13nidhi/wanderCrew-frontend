@@ -2,8 +2,9 @@ import type { User as FirebaseUser } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
 import type { ReactNode } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../config/firebase';
-import { getUserProfile, signInWithEmail, signOutUser, signUpWithEmail, updateUserProfile } from '../services/auth';
+import { getUserProfile, resetPassword as resetPasswordService, signInWithEmail, signOutUser, signUpWithEmail, updateUserProfile } from '../services/auth';
 import type { AuthContextType, FirebaseUserProfile } from '../types/firebase';
 
 // Create the AuthContext
@@ -18,6 +19,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<FirebaseUserProfile | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Listen for authentication state changes
   useEffect(() => {
@@ -52,6 +55,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return unsubscribe;
   }, []);
 
+  // Handle onboarding redirect
+  useEffect(() => {
+    if (!isLoading && user && !user.isOnboardingComplete) {
+      // Only redirect if not already on onboarding page
+      if (location.pathname !== '/onboarding') {
+        navigate('/onboarding');
+      }
+    }
+  }, [user, isLoading, navigate, location.pathname]);
+
   // Sign in with email and password
   const signIn = async (email: string, password: string): Promise<void> => {
     const isDemoMode = import.meta.env['VITE_FIREBASE_API_KEY'] === 'demo-api-key' || !import.meta.env['VITE_FIREBASE_API_KEY'];
@@ -75,6 +88,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         updatedAt: new Date() as any,
         isVerified: true,
         lastLoginAt: new Date() as any,
+        isOnboardingComplete: true,
       };
       setUser(demoUser);
       return;
@@ -123,6 +137,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Reset password
+  const resetPassword = async (email: string): Promise<void> => {
+    try {
+      await resetPasswordService(email);
+    } catch (error: any) {
+      throw new Error(`Password reset failed: ${error.message}`);
+    }
+  };
+
   const value: AuthContextType = {
     user,
     firebaseUser,
@@ -131,6 +154,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     signUp,
     signOut,
     updateProfile,
+    resetPassword,
   };
 
   return (

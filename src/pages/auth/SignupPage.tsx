@@ -1,7 +1,15 @@
+import { useAuth } from '@contexts/AuthContext';
+import type { FirebaseUserProfile } from '@types/firebase';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 import './AuthPages.css';
+
+interface SignupFormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 interface FormErrors {
   name?: string;
@@ -12,14 +20,15 @@ interface FormErrors {
 }
 
 const SignupPage: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SignupFormData>({
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isLoading, setIsLoading] = useState(false);
+  
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
@@ -34,9 +43,9 @@ const SignupPage: React.FC = () => {
     }
     
     // Email validation
-    if (!formData.email.trim()) {
+    if (!formData.email) {
       newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
     
@@ -60,43 +69,55 @@ const SignupPage: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+    
+    // Clear field-specific error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      return;
+    }
 
     setIsLoading(true);
     setErrors({});
 
     try {
-      await signUp(formData.email, formData.password, {
+      // Create user profile data
+      const userData: Partial<FirebaseUserProfile> = {
         name: formData.name.trim(),
-        email: formData.email.trim(),
+        email: formData.email,
         profilePicture: '',
         travelPreferences: {
           destinations: [],
           budgetRange: { min: 0, max: 1000, currency: 'USD' },
           groupSizePreference: 'medium',
           travelStyle: 'relaxed',
-          interests: []
-        }
-      });
-      navigate('/onboarding');
+          interests: [],
+        },
+      };
+
+      await signUp(formData.email, formData.password, userData);
+      navigate('/dashboard');
     } catch (error: any) {
-      console.error('Signup error:', error);
-      setErrors({ general: error.message || 'Sign up failed. Please try again.' });
+      setErrors({
+        general: error.message || 'Sign up failed. Please try again.',
+      });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear field-specific error when user starts typing
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
     }
   };
 
@@ -104,17 +125,17 @@ const SignupPage: React.FC = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Create Account</h1>
-          <p className="auth-subtitle">Join WanderCrew and start your travel journey</p>
+          <h1 className="auth-title">Join WanderCrew</h1>
+          <p className="auth-subtitle">Create your account and start your travel journey</p>
         </div>
-        
+
         {errors.general && (
-          <div className="auth-error-general">
+          <div className="auth-error">
             {errors.general}
           </div>
         )}
-        
-        <form onSubmit={handleSubmit} className="auth-form" noValidate>
+
+        <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="name" className="form-label">
               Full Name
@@ -125,19 +146,16 @@ const SignupPage: React.FC = () => {
               type="text"
               value={formData.name}
               onChange={handleInputChange}
-              className={`form-input ${errors.name ? 'form-input-error' : ''}`}
+              className={`form-input ${errors.name ? 'error' : ''}`}
               placeholder="Enter your full name"
               autoComplete="name"
               disabled={isLoading}
-              aria-describedby={errors.name ? 'name-error' : undefined}
             />
             {errors.name && (
-              <span id="name-error" className="form-error" role="alert">
-                {errors.name}
-              </span>
+              <span className="form-error">{errors.name}</span>
             )}
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="email" className="form-label">
               Email Address
@@ -148,19 +166,16 @@ const SignupPage: React.FC = () => {
               type="email"
               value={formData.email}
               onChange={handleInputChange}
-              className={`form-input ${errors.email ? 'form-input-error' : ''}`}
+              className={`form-input ${errors.email ? 'error' : ''}`}
               placeholder="Enter your email"
               autoComplete="email"
               disabled={isLoading}
-              aria-describedby={errors.email ? 'email-error' : undefined}
             />
             {errors.email && (
-              <span id="email-error" className="form-error" role="alert">
-                {errors.email}
-              </span>
+              <span className="form-error">{errors.email}</span>
             )}
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="password" className="form-label">
               Password
@@ -171,19 +186,19 @@ const SignupPage: React.FC = () => {
               type="password"
               value={formData.password}
               onChange={handleInputChange}
-              className={`form-input ${errors.password ? 'form-input-error' : ''}`}
-              placeholder="Create a password"
+              className={`form-input ${errors.password ? 'error' : ''}`}
+              placeholder="Create a strong password"
               autoComplete="new-password"
               disabled={isLoading}
-              aria-describedby={errors.password ? 'password-error' : undefined}
             />
             {errors.password && (
-              <span id="password-error" className="form-error" role="alert">
-                {errors.password}
-              </span>
+              <span className="form-error">{errors.password}</span>
             )}
+            <div className="form-hint">
+              Password must be at least 6 characters with uppercase, lowercase, and number
+            </div>
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="confirmPassword" className="form-label">
               Confirm Password
@@ -194,27 +209,24 @@ const SignupPage: React.FC = () => {
               type="password"
               value={formData.confirmPassword}
               onChange={handleInputChange}
-              className={`form-input ${errors.confirmPassword ? 'form-input-error' : ''}`}
+              className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
               placeholder="Confirm your password"
               autoComplete="new-password"
               disabled={isLoading}
-              aria-describedby={errors.confirmPassword ? 'confirm-password-error' : undefined}
             />
             {errors.confirmPassword && (
-              <span id="confirm-password-error" className="form-error" role="alert">
-                {errors.confirmPassword}
-              </span>
+              <span className="form-error">{errors.confirmPassword}</span>
             )}
           </div>
-          
-          <button 
-            type="submit" 
-            className={`auth-button ${isLoading ? 'auth-button-loading' : ''}`}
+
+          <button
+            type="submit"
+            className={`auth-button ${isLoading ? 'loading' : ''}`}
             disabled={isLoading}
           >
             {isLoading ? (
               <>
-                <span className="auth-button-spinner" aria-hidden="true"></span>
+                <span className="spinner"></span>
                 Creating Account...
               </>
             ) : (
@@ -222,12 +234,12 @@ const SignupPage: React.FC = () => {
             )}
           </button>
         </form>
-        
+
         <div className="auth-footer">
-          <p className="auth-footer-text">
+          <p className="auth-text">
             Already have an account?{' '}
             <Link to="/login" className="auth-link">
-              Sign in
+              Sign in here
             </Link>
           </p>
         </div>

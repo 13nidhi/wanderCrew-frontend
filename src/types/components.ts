@@ -287,6 +287,97 @@ export interface ComponentRef<T = HTMLElement> {
   readonly current: T | null;
 }
 
+// Authentication component props
+export interface AuthFormProps extends BaseComponentProps {
+  readonly title: string;
+  readonly subtitle: string;
+  readonly fields: AuthFormField[];
+  readonly onSubmit: (e: React.FormEvent) => void;
+  readonly submitText: string;
+  readonly isLoading: boolean;
+  readonly generalError?: string;
+  readonly footer?: ReactNode;
+}
+
+export interface AuthFormField {
+  readonly id: string;
+  readonly name: string;
+  readonly type: 'text' | 'email' | 'password';
+  readonly label: string;
+  readonly placeholder: string;
+  readonly value: string;
+  readonly onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  readonly error?: string;
+  readonly disabled?: boolean;
+  readonly autoComplete?: string;
+  readonly required?: boolean;
+}
+
+export interface LoginFormProps extends BaseComponentProps {
+  readonly onSubmit: (email: string, password: string) => Promise<void>;
+  readonly loading?: boolean;
+  readonly error?: string;
+}
+
+export interface SignupFormProps extends BaseComponentProps {
+  readonly onSubmit: (data: SignupFormData) => Promise<void>;
+  readonly loading?: boolean;
+  readonly error?: string;
+}
+
+export interface SignupFormData {
+  readonly name: string;
+  readonly email: string;
+  readonly password: string;
+  readonly confirmPassword: string;
+}
+
+export interface ForgotPasswordFormProps extends BaseComponentProps {
+  readonly onSubmit: (email: string) => Promise<void>;
+  readonly loading?: boolean;
+  readonly error?: string;
+  readonly isSubmitted?: boolean;
+}
+
+export interface ProtectedRouteProps extends BaseComponentProps {
+  readonly children: ReactNode;
+  readonly redirectTo?: string;
+  readonly requireAuth?: boolean;
+}
+
+// Form validation types
+export interface FormValidationResult {
+  readonly isValid: boolean;
+  readonly errors: Record<string, string>;
+}
+
+export interface ValidationRule {
+  readonly required?: boolean;
+  readonly minLength?: number;
+  readonly maxLength?: number;
+  readonly pattern?: RegExp;
+  readonly custom?: (value: string) => string | null;
+}
+
+export interface FormFieldValidation {
+  readonly [fieldName: string]: ValidationRule;
+}
+
+// Authentication state types
+export interface AuthState {
+  readonly user: User | null;
+  readonly isLoading: boolean;
+  readonly error: string | null;
+}
+
+export interface AuthActions {
+  readonly signIn: (email: string, password: string) => Promise<void>;
+  readonly signUp: (email: string, password: string, userData: Partial<User>) => Promise<void>;
+  readonly signOut: () => Promise<void>;
+  readonly resetPassword: (email: string) => Promise<void>;
+  readonly updateProfile: (updates: Partial<User>) => Promise<void>;
+}
+
 // Event handler types
 export type ClickHandler = (event: React.MouseEvent<HTMLElement>) => void;
 export type ChangeHandler<T = HTMLInputElement> = (event: React.ChangeEvent<T>) => void;

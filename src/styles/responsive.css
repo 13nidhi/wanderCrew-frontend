@@ -1,0 +1,424 @@
+/* Responsive Design System - Mobile First Approach */
+
+/* Base mobile styles (default) */
+:root {
+  --mobile-padding: var(--spacing-4);
+  --tablet-padding: var(--spacing-6);
+  --desktop-padding: var(--spacing-8);
+  
+  --mobile-font-size: var(--font-size-sm);
+  --tablet-font-size: var(--font-size-base);
+  --desktop-font-size: var(--font-size-lg);
+  
+  --mobile-spacing: var(--spacing-2);
+  --tablet-spacing: var(--spacing-4);
+  --desktop-spacing: var(--spacing-6);
+}
+
+/* Mobile-first base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px; /* Base mobile font size */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  font-size: var(--mobile-font-size);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container queries for responsive components */
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--mobile-padding);
+}
+
+/* Responsive typography */
+.responsive-text {
+  font-size: var(--mobile-font-size);
+  line-height: 1.5;
+}
+
+.responsive-heading {
+  font-size: var(--font-size-xl);
+  line-height: 1.2;
+  font-weight: var(--font-weight-bold);
+}
+
+.responsive-subheading {
+  font-size: var(--font-size-lg);
+  line-height: 1.3;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Responsive spacing utilities */
+.spacing-mobile {
+  padding: var(--mobile-spacing);
+}
+
+.spacing-tablet {
+  padding: var(--tablet-spacing);
+}
+
+.spacing-desktop {
+  padding: var(--desktop-spacing);
+}
+
+/* Responsive grid system */
+.grid-mobile {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mobile-spacing);
+}
+
+.grid-tablet {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--tablet-spacing);
+}
+
+.grid-desktop {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--desktop-spacing);
+}
+
+/* Responsive flexbox utilities */
+.flex-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mobile-spacing);
+}
+
+.flex-tablet {
+  display: flex;
+  flex-direction: row;
+  gap: var(--tablet-spacing);
+}
+
+.flex-desktop {
+  display: flex;
+  flex-direction: row;
+  gap: var(--desktop-spacing);
+}
+
+/* Responsive visibility utilities */
+.mobile-only {
+  display: block;
+}
+
+.tablet-only {
+  display: none;
+}
+
+.desktop-only {
+  display: none;
+}
+
+/* Touch-friendly interactive elements */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive images */
+.responsive-image {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+/* Responsive buttons */
+.responsive-button {
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--mobile-font-size);
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+}
+
+/* Responsive forms */
+.responsive-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mobile-spacing);
+}
+
+.responsive-input {
+  width: 100%;
+  padding: var(--spacing-3);
+  font-size: var(--mobile-font-size);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: border-color var(--transition-normal);
+}
+
+.responsive-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-light);
+}
+
+/* Tablet styles (768px and up) */
+@media (min-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+  
+  body {
+    font-size: var(--tablet-font-size);
+  }
+  
+  .container {
+    padding: 0 var(--tablet-padding);
+  }
+  
+  .responsive-text {
+    font-size: var(--tablet-font-size);
+  }
+  
+  .responsive-heading {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .responsive-subheading {
+    font-size: var(--font-size-xl);
+  }
+  
+  .spacing-mobile {
+    padding: var(--tablet-spacing);
+  }
+  
+  .grid-mobile {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--tablet-spacing);
+  }
+  
+  .flex-mobile {
+    flex-direction: row;
+    gap: var(--tablet-spacing);
+  }
+  
+  .mobile-only {
+    display: none;
+  }
+  
+  .tablet-only {
+    display: block;
+  }
+  
+  .responsive-button {
+    padding: var(--spacing-4) var(--spacing-6);
+    font-size: var(--tablet-font-size);
+  }
+  
+  .responsive-input {
+    padding: var(--spacing-4);
+    font-size: var(--tablet-font-size);
+  }
+}
+
+/* Desktop styles (1024px and up) */
+@media (min-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+  
+  body {
+    font-size: var(--desktop-font-size);
+  }
+  
+  .container {
+    padding: 0 var(--desktop-padding);
+    max-width: 1200px;
+  }
+  
+  .responsive-text {
+    font-size: var(--desktop-font-size);
+  }
+  
+  .responsive-heading {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .responsive-subheading {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .spacing-mobile {
+    padding: var(--desktop-spacing);
+  }
+  
+  .grid-mobile {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--desktop-spacing);
+  }
+  
+  .tablet-only {
+    display: none;
+  }
+  
+  .desktop-only {
+    display: block;
+  }
+  
+  .responsive-button {
+    padding: var(--spacing-5) var(--spacing-8);
+    font-size: var(--desktop-font-size);
+  }
+  
+  .responsive-input {
+    padding: var(--spacing-5);
+    font-size: var(--desktop-font-size);
+  }
+}
+
+/* Large desktop styles (1440px and up) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px;
+  }
+  
+  .responsive-heading {
+    font-size: var(--font-size-4xl);
+  }
+  
+  .responsive-subheading {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .responsive-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .auth-container {
+    padding: var(--spacing-2);
+  }
+  
+  .auth-card {
+    padding: var(--spacing-4);
+  }
+  
+  .responsive-heading {
+    font-size: var(--font-size-lg);
+  }
+  
+  .responsive-subheading {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Print styles */
+@media print {
+  .mobile-only,
+  .tablet-only,
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .responsive-button {
+    background: none !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+  }
+  
+  .responsive-image {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .responsive-button {
+    border: 2px solid currentColor;
+  }
+  
+  .responsive-input {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Dark mode preferences */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #1a1a1a;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #cccccc;
+    --color-border: #333333;
+  }
+}
+
+/* Focus management for keyboard navigation */
+.responsive-button:focus-visible,
+.responsive-input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive navigation */
+.responsive-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mobile-spacing);
+}
+
+@media (min-width: 768px) {
+  .responsive-nav {
+    flex-direction: row;
+    gap: var(--tablet-spacing);
+  }
+}
+
+/* Responsive cards */
+.responsive-card {
+  padding: var(--mobile-spacing);
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 768px) {
+  .responsive-card {
+    padding: var(--tablet-spacing);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-card {
+    padding: var(--desktop-spacing);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+}

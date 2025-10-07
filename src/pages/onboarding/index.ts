@@ -1,5 +1,5 @@
-// Onboarding page components
-// Export all onboarding-related pages here
+export { default as OnboardingFlow } from './OnboardingFlow';
+export { default as PersonalInfoPage } from './PersonalInfoPage';
+export { default as ProfileSetupPage } from './ProfileSetupPage';
+export { default as TravelPreferencesPage } from './TravelPreferencesPage';
 
-// Placeholder for onboarding pages
-// Will be populated as pages are created

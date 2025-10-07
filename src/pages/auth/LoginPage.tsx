@@ -1,7 +1,13 @@
+import { LoadingButton } from '@components/common';
+import { useAuth } from '@contexts/AuthContext';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 import './AuthPages.css';
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 interface FormErrors {
   email?: string;
@@ -10,10 +16,13 @@ interface FormErrors {
 }
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: '',
+    password: '',
+  });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isLoading, setIsLoading] = useState(false);
+  
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
@@ -21,16 +30,16 @@ const LoginPage: React.FC = () => {
     const newErrors: FormErrors = {};
     
     // Email validation
-    if (!email.trim()) {
+    if (!formData.email) {
       newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
     
     // Password validation
-    if (!password) {
+    if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
+    } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
     
@@ -38,44 +47,41 @@ const LoginPage: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+    
+    // Clear field-specific error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      return;
+    }
 
     setIsLoading(true);
     setErrors({});
 
     try {
-      await signIn(email, password);
+      await signIn(formData.email, formData.password);
       navigate('/dashboard');
     } catch (error: any) {
-      console.error('Login error:', error);
-      setErrors({ general: error.message || 'Login failed. Please try again.' });
+      setErrors({
+        general: error.message || 'Login failed. Please try again.',
+      });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (errors.email) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors.email;
-        return newErrors;
-      });
-    }
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    if (errors.password) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors.password;
-        return newErrors;
-      });
     }
   };
 
@@ -86,85 +92,80 @@ const LoginPage: React.FC = () => {
           <h1 className="auth-title">Welcome Back</h1>
           <p className="auth-subtitle">Sign in to continue your travel journey</p>
         </div>
-        
+
         {errors.general && (
-          <div className="auth-error-general">
+          <div className="auth-error">
             {errors.general}
           </div>
         )}
-        
-        <form onSubmit={handleSubmit} className="auth-form" noValidate>
+
+        <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="email" className="form-label">
               Email Address
             </label>
             <input
               id="email"
+              name="email"
               type="email"
-              value={email}
-              onChange={handleEmailChange}
-              className={`form-input ${errors.email ? 'form-input-error' : ''}`}
+              value={formData.email}
+              onChange={handleInputChange}
+              className={`form-input ${errors.email ? 'error' : ''}`}
               placeholder="Enter your email"
               autoComplete="email"
               disabled={isLoading}
-              aria-describedby={errors.email ? 'email-error' : undefined}
             />
             {errors.email && (
-              <span id="email-error" className="form-error" role="alert">
-                {errors.email}
-              </span>
+              <span className="form-error">{errors.email}</span>
             )}
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="password" className="form-label">
               Password
             </label>
             <input
               id="password"
+              name="password"
               type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              className={`form-input ${errors.password ? 'form-input-error' : ''}`}
+              value={formData.password}
+              onChange={handleInputChange}
+              className={`form-input ${errors.password ? 'error' : ''}`}
               placeholder="Enter your password"
               autoComplete="current-password"
               disabled={isLoading}
-              aria-describedby={errors.password ? 'password-error' : undefined}
             />
             {errors.password && (
-              <span id="password-error" className="form-error" role="alert">
-                {errors.password}
-              </span>
+              <span className="form-error">{errors.password}</span>
             )}
           </div>
-          
-          <button 
-            type="submit" 
-            className={`auth-button ${isLoading ? 'auth-button-loading' : ''}`}
-            disabled={isLoading}
-            aria-describedby="login-status"
+
+          <div className="form-actions">
+            <Link to="/forgot-password" className="auth-link">
+              Forgot your password?
+            </Link>
+          </div>
+
+          <LoadingButton
+            type="submit"
+            loading={isLoading}
+            loadingText="Signing In..."
+            className="auth-button"
+            variant="primary"
+            size="md"
+            fullWidth
           >
-            {isLoading ? (
-              <>
-                <span className="auth-button-spinner" aria-hidden="true"></span>
-                Signing In...
-              </>
-            ) : (
-              'Sign In'
-            )}
-          </button>
+            Sign In
+          </LoadingButton>
         </form>
-        
+
         <div className="auth-footer">
-          <p className="auth-footer-text">
+          <p className="auth-text">
             Don't have an account?{' '}
             <Link to="/signup" className="auth-link">
-              Sign up
+              Sign up here
             </Link>
           </p>
-          <Link to="/forgot-password" className="auth-link">
-            Forgot your password?
-          </Link>
         </div>
       </div>
     </div>

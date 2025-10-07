@@ -1,5 +1,4 @@
-// Form components
-// Export all form-related components here
+// Export all form components
+export { default as AuthForm } from './AuthForm';
+export type { AuthFormConfig, AuthFormData, AuthFormErrors, AuthFormField } from './AuthForm';
 
-// Placeholder for form components
-// Will be populated as components are created

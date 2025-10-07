@@ -12,6 +12,7 @@ export interface FirebaseUserProfile {
   readonly updatedAt: Timestamp;
   readonly isVerified: boolean;
   readonly lastLoginAt: Timestamp;
+  readonly isOnboardingComplete?: boolean;
 }
 
 // Travel Preferences Interface
@@ -86,6 +87,7 @@ export interface AuthContextType {
   readonly signUp: (email: string, password: string, userData: Partial<FirebaseUserProfile>) => Promise<void>;
   readonly signOut: () => Promise<void>;
   readonly updateProfile: (updates: Partial<FirebaseUserProfile>) => Promise<void>;
+  readonly resetPassword: (email: string) => Promise<void>;
 }
 
 // Error Interface
